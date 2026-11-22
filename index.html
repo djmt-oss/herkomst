@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Zoek of jouw familie voorkomt in een archief van 57.330 voorouders uit Nederland, Duitsland en Frankrijk, van 1430 tot nu.">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+</head>
+<body>
+<title>Herkomst</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital@0;1&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: one white archive page. Toile engraving hero, ledger rows ruled with hairlines, one cobalt interlude, cobalt engraved footer. Single light theme by choice: blue ink on paper is the identity. */
+:root{
+  --paper:#FCFCFD;   /* page */
+  --blue:#2A2BCF;    /* engraving ink, accents */
+  --ink:#101015;     /* text */
+  --muted:#6A6B7A;   /* secondary */
+  --rule:#DCDDE6;    /* hairlines */
+  --tint:#E5E6FC;    /* pill values */
+  --display:"Libre Caslon Display","Didot","Bodoni 72",Georgia,serif;
+  --text:"Libre Caslon Text",Georgia,serif;
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:inherit}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+
+/* nav */
+.nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;padding-block:16px;font-size:12px;letter-spacing:.02em}
+.nav .links{display:flex;gap:20px}
+.nav .links a{text-decoration:none}.nav .links a:hover{color:var(--blue)}
+.brand{display:flex;flex-direction:column;align-items:center;text-decoration:none;color:var(--blue)}
+.brand .wm{font-family:var(--display);font-size:13px;letter-spacing:.22em;text-transform:uppercase;line-height:1.1;margin-top:4px}
+.brand svg{width:18px;height:auto}
+.lang{display:flex;justify-content:flex-end;gap:2px}
+.lang button{border:0;background:none;padding:4px 7px;font-size:12px;cursor:pointer;color:var(--muted);border-radius:3px}
+.lang button[aria-pressed="true"]{background:var(--blue);color:#fff}
+@media (max-width:720px){.nav{grid-template-columns:auto 1fr}.nav .links{display:none}.brand{align-items:flex-start}}
+
+/* hero */
+.hero{position:relative;height:clamp(640px,58vw,780px);border-top:1px solid var(--rule);overflow:hidden}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%}
+.hero-in{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:34px}
+.mono{width:46px;height:auto;filter:drop-shadow(0 0 6px var(--paper))}
+.roman{font-family:var(--display);font-size:12px;letter-spacing:.2em;color:var(--blue);margin-top:10px;background:var(--paper);padding:0 6px}
+.hero h1{font-family:var(--display);font-weight:400;text-transform:uppercase;color:var(--blue);font-size:clamp(36px,6.2vw,84px);line-height:.98;letter-spacing:-.005em;
+  margin:clamp(70px,11vw,150px) auto 0;max-width:12.5ch;text-wrap:balance;
+  text-shadow:0 0 14px var(--paper),0 0 14px var(--paper),0 0 4px var(--paper)}
+.searchbox{display:flex;width:min(520px,100%);margin-top:28px;border:1px solid var(--blue);background:var(--paper);border-radius:999px;overflow:hidden;box-shadow:0 0 0 10px color-mix(in srgb,var(--paper) 80%,transparent)}
+.searchbox input{flex:1;min-width:0;border:0;background:transparent;padding:13px 20px;font-size:15px;outline:none}
+.searchbox input::placeholder{color:var(--muted)}
+.searchbox button{border:0;background:var(--blue);color:#fff;padding:0 22px;font-weight:500;cursor:pointer}
+.loadhint{margin-top:10px;font-size:12px;color:var(--blue);background:var(--paper);padding:2px 8px;border-radius:4px}
+.down{margin-top:14px;color:var(--blue);font-size:18px;text-decoration:none;background:var(--paper);border-radius:50%;width:28px;line-height:28px}
+@media (max-width:600px){.hero{height:700px}}
+
+/* intro */
+.intro{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,80px);align-items:center;padding-block:clamp(48px,7vw,96px) 0}
+.intro canvas{width:100%;max-width:440px;height:300px;display:block}
+.intro .copy{max-width:44ch;font-size:13.5px;display:grid;gap:14px}
+.intro .copy p{margin:0}
+.statement{padding-block:clamp(40px,6vw,80px) 0}
+.statement p{font-size:clamp(22px,2.9vw,38px);line-height:1.22;letter-spacing:-.015em;font-weight:500;margin:0;max-width:30ch}
+.statement .w{color:#B4B5C2;transition:color .25s}
+.statement .w.on{color:var(--ink)}
+.statement small{display:block;margin-top:12px;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.strip{display:block;width:100%;height:150px;margin-top:20px}
+@media (max-width:760px){.intro{grid-template-columns:1fr}.intro canvas{height:240px}}
+
+/* section heads */
+section.block{padding-block:clamp(48px,7vw,96px);border-top:1px solid var(--rule)}
+.eyebrow{font-size:12px;color:var(--blue);margin:0 0 6px}
+h2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(36px,5.6vw,72px);line-height:.95;margin:0;text-wrap:balance}
+h2 sup{font-family:var(--sans);font-size:.3em;color:var(--blue);vertical-align:1.4em;margin-left:6px}
+.status{margin:14px 0 0;font-size:13px;color:var(--muted);max-width:60ch}
+
+/* ledger rows */
+.ledger{margin-top:28px;border-top:1px solid var(--rule)}
+.row{text-decoration:none;color:inherit;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 28px;width:100%;padding:20px 0 18px;border:0;border-bottom:1px solid var(--rule);background:none;text-align:left;cursor:pointer}
+.row .nm{font-family:var(--display);text-transform:uppercase;font-size:clamp(30px,4.4vw,58px);line-height:.95;overflow-wrap:anywhere}
+.row .nm em{font-style:normal;color:var(--muted)}
+.row:hover .nm{color:var(--blue)}
+.row .sub{grid-column:1;font-size:12.5px;margin-top:8px}
+.row .side{grid-column:2;grid-row:1/3;display:flex;flex-direction:column;align-items:flex-end;gap:4px;padding-top:6px}
+.kv{display:inline-flex;font-size:10.5px;line-height:1;white-space:nowrap}
+.kv b{font-weight:500;background:var(--blue);color:#fff;padding:4px 5px}
+.kv i{font-style:normal;background:var(--tint);color:var(--blue);padding:4px 6px}
+.arrow{font-size:17px;color:var(--ink);margin-top:10px;line-height:1}
+.row:hover .arrow{color:var(--blue)}
+@media (max-width:600px){.row{grid-template-columns:1fr}.row .side{grid-column:1;grid-row:auto;flex-direction:row;flex-wrap:wrap;align-items:center;padding-top:8px}.arrow{margin:0 0 0 auto}}
+.more{margin-top:22px;font-family:var(--display);font-size:clamp(20px,2.4vw,28px);color:var(--blue);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1px}
+
+/* cobalt interlude */
+.cobalt{position:relative;background:var(--blue);color:#fff;text-align:center;padding-block:clamp(90px,13vw,170px);overflow:hidden}
+.cobalt canvas{position:absolute;width:clamp(170px,24vw,300px);height:clamp(170px,24vw,300px)}
+.cobalt .c1{left:-10px;top:10px}.cobalt .c2{right:-10px;bottom:10px}
+.cobalt .mono{filter:none}
+.cobalt h2{position:relative;color:#fff;margin:22px auto 0;max-width:15ch;font-size:clamp(34px,5.4vw,70px)}
+.cobalt h2 .l{opacity:.22;transition:opacity .5s}
+.cobalt h2.go .l{opacity:1}
+
+/* members */
+.feat{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:24px 48px;align-items:start}
+.feat .lead{font-family:var(--display);font-size:clamp(20px,2.2vw,26px);line-height:1.2;color:var(--blue);margin:0;max-width:24ch}
+.feat .lead + p{font-size:13px;color:var(--ink);margin:14px 0 0;max-width:42ch}
+.flist{border-top:1px solid var(--rule)}
+.frow{padding:16px 0;border-bottom:1px solid var(--rule)}
+.frow b{display:block;font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(28px,3.6vw,46px);line-height:1}
+.frow:nth-child(n+4) b{color:#9A9BAA}
+.frow span{display:block;font-size:12.5px;margin-top:6px;color:var(--muted)}
+.tagbtn{display:inline-block;margin-top:22px;background:var(--blue);padding:1px;clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 50%,calc(100% - 12px) 100%,12px 100%,0 50%);border:0;cursor:pointer;text-decoration:none}
+.tagbtn span{display:block;background:var(--paper);color:var(--blue);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;padding:12px 28px;clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 50%,calc(100% - 12px) 100%,12px 100%,0 50%)}
+.tagbtn:hover span{background:var(--tint)}
+.contact{margin-top:14px;font-size:12.5px;color:var(--muted);max-width:44ch}
+@media (max-width:760px){.feat{grid-template-columns:1fr}}
+
+/* privacy: three testimonies */
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin-top:30px}
+.three article{border-top:1px solid var(--rule);padding-top:12px}
+.three h3{font-size:12px;font-weight:600;margin:0}
+.three .s{font-size:10.5px;color:var(--blue);margin-top:2px}
+.three p{font-family:var(--text);font-size:clamp(18px,1.7vw,22px);line-height:1.28;margin:18px 0 0}
+@media (max-width:820px){.three{grid-template-columns:1fr}}
+
+/* archive notes (press style) */
+.notes{margin-top:26px;border-top:1px solid var(--rule)}
+.note{display:grid;grid-template-columns:110px minmax(0,1fr) auto;gap:20px;align-items:start;padding:16px 0;border-bottom:1px solid var(--rule)}
+.note .k{font-family:var(--display);font-size:22px;color:var(--blue);line-height:1;font-variant-numeric:tabular-nums}
+.note h3{font-family:var(--display);font-weight:400;font-size:clamp(22px,2.6vw,32px);line-height:1.08;margin:0}
+.note .m{display:flex;align-items:center;gap:10px;margin-top:6px;font-size:10.5px;color:var(--blue)}
+.note .m:before{content:"";order:1;width:34px;height:1px;background:var(--blue)}
+.note .m span:last-child{order:2}
+@media (max-width:600px){.note{grid-template-columns:1fr}}
+
+/* footer */
+footer{background:var(--blue);color:#fff;position:relative}
+footer canvas{display:block;width:100%;height:clamp(220px,26vw,340px)}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px;padding-block:6px 30px}
+.foot .wm{font-family:var(--display);font-size:clamp(28px,4vw,46px);line-height:.9;text-transform:uppercase;letter-spacing:.02em}
+.foot .wm small{display:block;font-size:12px;letter-spacing:.2em;margin-bottom:6px}
+.foot nav{display:flex;gap:18px;font-size:12px}
+.foot nav a{text-decoration:none}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.statement .w,.cobalt h2 .l{transition:none}}
+</style>
+
+<div class="wrap">
+  <header class="nav">
+    <nav class="links" aria-label="Menu">
+      <a href="#zoeken" data-t="navSearch"></a><a href="#leden" data-t="navMembers"></a><a href="#over" data-t="navAbout"></a><a href="#privacy" data-t="navPrivacy"></a>
+    </nav>
+    <a class="brand" href="#top" aria-label="Herkomst">
+      <svg viewBox="0 0 68 104" aria-hidden="true"><path d="M0 104V48C0 26 15 9 34 0C53 9 68 26 68 48V104Z" fill="var(--blue)"/><g fill="none" stroke="var(--paper)" stroke-width="5" stroke-linecap="round"><path d="M34 88V52"/><path d="M34 64C26 58 20 50 18 40"/><path d="M34 64C42 58 48 50 50 40"/><path d="M34 54C29 46 27 38 28 28"/><path d="M34 54C39 46 41 38 40 28"/><path d="M34 88C28 92 20 95 12 96"/><path d="M34 88C40 92 48 95 56 96"/></g></svg>
+      <span class="wm">Herkomst</span>
+    </a>
+    <div class="lang" role="group" aria-label="Taal / Sprache / Langue / Language">
+      <button data-l="nl">NL</button><button data-l="de">DE</button><button data-l="fr">FR</button><button data-l="en">EN</button>
+    </div>
+  </header>
+</div>
+
+<div class="hero" id="top">
+  <canvas id="cvHero" aria-hidden="true"></canvas>
+  <div class="hero-in wrap">
+    <svg class="mono" viewBox="0 0 68 104" aria-hidden="true"><path d="M0 104V48C0 26 15 9 34 0C53 9 68 26 68 48V104Z" fill="var(--blue)"/><g fill="none" stroke="var(--paper)" stroke-width="4.4" stroke-linecap="round"><path d="M34 88V52"/><path d="M34 64C26 58 20 50 18 40"/><path d="M34 64C42 58 48 50 50 40"/><path d="M34 54C29 46 27 38 28 28"/><path d="M34 54C39 46 41 38 40 28"/><path d="M34 88C28 92 20 95 12 96"/><path d="M34 88C40 92 48 95 56 96"/></g></svg>
+    <div class="roman">MCDXXX · MMXXV</div>
+    <h1 data-t="heroH"></h1>
+    <form class="searchbox" id="heroForm" role="search">
+      <input id="q" type="search" autocomplete="off" data-tp="searchPh" aria-label="">
+      <button type="submit" data-t="searchBtn"></button>
+    </form>
+    <div class="loadhint" id="loadHint" data-t="loading"></div>
+    <a class="down" href="#over" aria-label="↓">↓</a>
+  </div>
+</div>
+
+<div class="wrap" id="over">
+  <div class="intro">
+    <canvas id="cvBird" aria-hidden="true"></canvas>
+    <div class="copy"><p data-t="intro1"></p><p data-t="intro2"></p><p data-t="intro3"></p></div>
+  </div>
+  <div class="statement"><p id="stmt"></p><small data-t="stmtCap"></small></div>
+</div>
+<canvas class="strip" id="cvStrip" aria-hidden="true"></canvas>
+
+<section class="block" id="zoeken"><div class="wrap">
+  <h2><span data-t="regTitle"></span><sup>↗</sup></h2>
+  <p class="status" id="status"></p>
+  <div class="ledger" id="results" aria-live="polite"></div>
+  <button class="more" id="moreBtn" hidden data-t="more"></button>
+</div></section>
+
+<div class="cobalt">
+  <canvas class="c1" id="cvC1" aria-hidden="true"></canvas>
+  <canvas class="c2" id="cvC2" aria-hidden="true"></canvas>
+  <svg class="mono" viewBox="0 0 68 104" aria-hidden="true" style="width:40px"><path d="M0 104V48C0 26 15 9 34 0C53 9 68 26 68 48V104Z" fill="#fff"/><g fill="none" stroke="var(--blue)" stroke-width="4.4" stroke-linecap="round"><path d="M34 88V52"/><path d="M34 64C26 58 20 50 18 40"/><path d="M34 64C42 58 48 50 50 40"/><path d="M34 54C29 46 27 38 28 28"/><path d="M34 54C39 46 41 38 40 28"/><path d="M34 88C28 92 20 95 12 96"/><path d="M34 88C40 92 48 95 56 96"/></g></svg>
+  <div class="wrap"><h2 id="cobaltH"></h2></div>
+</div>
+
+<section class="block" id="leden"><div class="wrap feat">
+  <div>
+    <p class="eyebrow" data-t="memEyebrow"></p>
+    <p class="lead" data-t="memLead"></p>
+    <p data-t="memNote"></p>
+    <a class="tagbtn" href="#aanvragen" id="reqBtn"><span data-t="memCta"></span></a>
+    <p class="contact" id="aanvragen" data-t="memContact"></p>
+  </div>
+  <div class="flist" id="flist"></div>
+</div></section>
+
+<section class="block" id="privacy"><div class="wrap">
+  <h2><span data-t="privTitle"></span><sup>↗</sup></h2>
+  <p class="status" data-t="privSub"></p>
+  <div class="three" id="three"></div>
+</div></section>
+
+<section class="block" id="archief"><div class="wrap">
+  <h2><span data-t="archTitle"></span><sup>↗</sup></h2>
+  <div class="notes" id="notes"></div>
+</div></section>
+
+<footer>
+  <canvas id="cvFoot" aria-hidden="true"></canvas>
+  <div class="wrap foot">
+    <div class="wm"><small data-t="footSmall"></small>Herkomst</div>
+    <nav aria-label="Footer"><a href="#zoeken" data-t="navSearch"></a><a href="#leden" data-t="navMembers"></a><a href="#privacy" data-t="navPrivacy"></a><a href="#top">↑</a></nav>
+  </div>
+</footer>
+
+<script>
+/* Toile engraving engine: draws copper-plate style line art (leaves, roses, trees, arches, villages, birds) on a canvas. */
+(function(){
+"use strict";
+function rng(seed){ let s=seed>>>0; return ()=>{ s=(s*1664525+1013904223)>>>0; return s/4294967296; }; }
+const TAU=Math.PI*2;
+function q(p0,p1,p2,t){ const u=1-t; return [u*u*p0[0]+2*u*t*p1[0]+t*t*p2[0], u*u*p0[1]+2*u*t*p1[1]+t*t*p2[1]]; }
+
+function engraver(ctx, fg, bg, seed){
+  const R=rng(seed), rr=(a,b)=>a+R()*(b-a);
+  ctx.lineCap="round"; ctx.lineJoin="round";
+  const st=(w)=>{ ctx.strokeStyle=fg; ctx.fillStyle=bg; ctx.lineWidth=w; };
+  const E={R,rr,ctx};
+
+  function hatch(clipPath, angle, gap, lw, box){
+    ctx.save(); ctx.beginPath(); clipPath(); ctx.clip();
+    const [x0,y0,x1,y1]=box, cx=(x0+x1)/2, cy=(y0+y1)/2, r=Math.hypot(x1-x0,y1-y0)/2+2;
+    const ca=Math.cos(angle), sa=Math.sin(angle);
+    ctx.lineWidth=lw; ctx.strokeStyle=fg; ctx.beginPath();
+    for(let d=-r; d<=r; d+=gap){ ctx.moveTo(cx-ca*r-sa*d, cy-sa*r+ca*d); ctx.lineTo(cx+ca*r-sa*d, cy+sa*r+ca*d); }
+    ctx.stroke(); ctx.restore();
+  }
+  E.hatch=hatch;
+
+  E.leaf=(x,y,L,a,lw=1)=>{
+    const W=L*rr(.26,.36), ca=Math.cos(a), sa=Math.sin(a), bend=rr(-.12,.12)*L;
+    const P=(u,v)=>[x+ca*u-sa*v, y+sa*u+ca*v];
+    const b=[x,y], tip=P(L,bend), c1=P(L*.45,W+bend*.5), c2=P(L*.45,-W+bend*.5), m=P(L*.5,bend*.5);
+    st(lw); ctx.beginPath(); ctx.moveTo(x,y); ctx.quadraticCurveTo(c1[0],c1[1],tip[0],tip[1]); ctx.quadraticCurveTo(c2[0],c2[1],x,y); ctx.fill(); ctx.stroke();
+    ctx.lineWidth=lw*.75; ctx.beginPath(); ctx.moveTo(x,y); ctx.quadraticCurveTo(m[0],m[1],tip[0],tip[1]); ctx.stroke();
+    ctx.lineWidth=lw*.5; ctx.beginPath();
+    for(let t=.1;t<.92;t+=.06){ const p=q(b,m,tip,t), e=q(b,c2,tip,Math.min(1,t+.07)); ctx.moveTo(p[0],p[1]); ctx.lineTo(p[0]+(e[0]-p[0])*.9, p[1]+(e[1]-p[1])*.9); }
+    for(let t=.2;t<.85;t+=.18){ const p=q(b,m,tip,t), e=q(b,c1,tip,Math.min(1,t+.1)); ctx.moveTo(p[0],p[1]); ctx.lineTo(p[0]+(e[0]-p[0])*.75, p[1]+(e[1]-p[1])*.75); }
+    ctx.stroke();
+  };
+
+  E.rose=(x,y,r,lw=1)=>{
+    st(lw); const n=6+Math.floor(R()*3), a0=R()*TAU;
+    for(let k=0;k<n;k++){
+      const a=a0+k*TAU/n+rr(-.2,.2), px=x+Math.cos(a)*r*.55, py=y+Math.sin(a)*r*.48, pr=r*rr(.42,.54);
+      st(lw); ctx.beginPath(); ctx.ellipse(px,py,pr,pr*.78,a,0,TAU); ctx.fill(); ctx.stroke();
+      ctx.lineWidth=lw*.5; ctx.beginPath();
+      for(let j=0;j<5;j++){ const aa=a+Math.PI+(j-2)*.22; ctx.moveTo(px+Math.cos(aa)*pr*.25,py+Math.sin(aa)*pr*.2); ctx.lineTo(px+Math.cos(aa)*pr*.8,py+Math.sin(aa)*pr*.62); }
+      ctx.stroke();
+    }
+    st(lw); ctx.beginPath(); ctx.ellipse(x,y,r*.5,r*.42,0,0,TAU); ctx.fill(); ctx.stroke();
+    ctx.lineWidth=lw*.8; ctx.beginPath();
+    for(let t=0;t<15;t+=.12){ const rad=r*.44*(1-t/15), px=x+Math.cos(t)*rad, py=y+Math.sin(t)*rad*.82; t?ctx.lineTo(px,py):ctx.moveTo(px,py); }
+    ctx.stroke();
+  };
+
+  E.daisy=(x,y,r,lw=1)=>{
+    const n=14+Math.floor(R()*5), a0=R()*TAU;
+    for(let k=0;k<n;k++){ const a=a0+k*TAU/n, px=x+Math.cos(a)*r*.56, py=y+Math.sin(a)*r*.56;
+      st(lw); ctx.beginPath(); ctx.ellipse(px,py,r*.44,r*.12,a,0,TAU); ctx.fill(); ctx.stroke();
+      ctx.lineWidth=lw*.45; ctx.beginPath(); ctx.moveTo(x+Math.cos(a)*r*.25,y+Math.sin(a)*r*.25); ctx.lineTo(x+Math.cos(a)*r*.85,y+Math.sin(a)*r*.85); ctx.stroke(); }
+    st(lw); ctx.beginPath(); ctx.arc(x,y,r*.26,0,TAU); ctx.fill(); ctx.stroke();
+    ctx.fillStyle=fg; for(let k=0;k<14;k++){ const a=R()*TAU, d=R()*r*.2; ctx.beginPath(); ctx.arc(x+Math.cos(a)*d,y+Math.sin(a)*d,lw*.6,0,TAU); ctx.fill(); }
+  };
+
+  E.bud=(x,y,r,a,lw=1)=>{
+    st(lw); const ca=Math.cos(a), sa=Math.sin(a);
+    ctx.beginPath(); ctx.moveTo(x,y); ctx.quadraticCurveTo(x+ca*r-sa*r*.8, y+sa*r+ca*r*.8, x+ca*r*1.8, y+sa*r*1.8); ctx.quadraticCurveTo(x+ca*r+sa*r*.8, y+sa*r-ca*r*.8, x,y); ctx.fill(); ctx.stroke();
+    ctx.lineWidth=lw*.5; ctx.beginPath(); ctx.moveTo(x+ca*r*.3,y+sa*r*.3); ctx.lineTo(x+ca*r*1.5,y+sa*r*1.5); ctx.stroke();
+  };
+
+  E.stem=(x0,y0,x1,y1,bend,lw=1)=>{ st(lw); ctx.beginPath(); ctx.moveTo(x0,y0); ctx.quadraticCurveTo((x0+x1)/2+bend,(y0+y1)/2,x1,y1); ctx.stroke(); };
+
+  E.bush=(x,y,w,h,o={})=>{
+    const s=o.leaf||1, lw=o.lw||1, items=[];
+    const nL=Math.max(14,Math.min(160,Math.round(w*h/(230*s*s))));
+    const fl=[]; const nF=o.flowers!=null?o.flowers:Math.max(1,Math.round(w/85));
+    for(let i=0;i<nF;i++){ const u=rr(-.7,.7), v=rr(.45,.95); fl.push([x+u*w/2, y-v*h, rr(.13,.2)*Math.min(w,h*1.4)*s*.9]); }
+    for(const f of fl) E.stem(x+rr(-w*.08,w*.08), y, f[0], f[1], rr(-20,20), lw*.9);
+    for(let i=0;i<nL;i++){
+      const u=rr(-1,1), v=Math.pow(R(),.8), px=x+u*w/2*Math.sqrt(1-v*.55), py=y-v*h*.92;
+      const a=Math.atan2(py-(y+h*.25), px-x)+rr(-.6,.6), L=rr(.12,.22)*Math.min(h,w)*s+6;
+      items.push([px,py,L,a]);
+    }
+    items.sort((a,b)=>a[1]-b[1]);
+    for(const it of items) E.leaf(it[0],it[1],it[2],it[3],lw);
+    for(const f of fl){ (o.daisy && R()<.5 ? E.daisy : E.rose)(f[0],f[1],f[2],lw); }
+    const nb=Math.round(nF*1.5); for(let i=0;i<nb;i++){ E.bud(x+rr(-.5,.5)*w, y-rr(.5,1)*h, rr(4,7)*s, -Math.PI/2+rr(-.8,.8), lw); }
+  };
+
+  E.clump=(cx,cy,cr,lw=1)=>{
+    const b=9+Math.floor(R()*4), a0=R()*TAU, pts=[];
+    for(let k=0;k<b;k++){ const a=a0+k*TAU/b, rad=cr*rr(.88,1.05); pts.push([cx+Math.cos(a)*rad, cy+Math.sin(a)*rad*.86, a]); }
+    const path=()=>{ ctx.moveTo(pts[0][0],pts[0][1]); for(let k=0;k<b;k++){ const p=pts[k], n=pts[(k+1)%b], am=(p[2]+ (k+1===b? n[2]+TAU : n[2]))/2; ctx.quadraticCurveTo(cx+Math.cos(am)*cr*1.28, cy+Math.sin(am)*cr*1.1, n[0], n[1]); } ctx.closePath(); };
+    st(lw); ctx.beginPath(); path(); ctx.fill(); ctx.stroke();
+    ctx.save(); ctx.beginPath(); path(); ctx.clip();
+    hatch(()=>{ ctx.arc(cx+cr*.45,cy+cr*.5,cr*.85,0,TAU); }, .55, Math.max(1.8,cr*.07), lw*.5, [cx-cr*1.3,cy-cr*1.3,cx+cr*1.3,cy+cr*1.3]);
+    ctx.lineWidth=lw*.6; ctx.strokeStyle=fg; ctx.beginPath();
+    const nc=Math.round(cr*.9);
+    for(let j=0;j<nc;j++){ const a=rr(-.3,Math.PI+.3), d=Math.sqrt(R())*cr*.9, px=cx+Math.cos(a)*d, py=cy+Math.sin(a)*d*.8-cr*.1, rc=rr(.07,.12)*cr;
+      ctx.moveTo(px+rc,py); ctx.arc(px,py,rc,0,Math.PI); }
+    ctx.stroke(); ctx.restore();
+  };
+
+  E.tree=(x,y,h,lw=1)=>{
+    const tw=h*.055, top=y-h*.5;
+    const trunk=()=>{ ctx.moveTo(x-tw*2.2,y); ctx.quadraticCurveTo(x-tw*.6,y-h*.12,x-tw*.7,top); ctx.lineTo(x+tw*.7,top); ctx.quadraticCurveTo(x+tw*.6,y-h*.12,x+tw*2.4,y); ctx.closePath(); };
+    st(lw); ctx.beginPath(); trunk(); ctx.fill(); ctx.stroke();
+    ctx.save(); ctx.beginPath(); trunk(); ctx.clip(); ctx.lineWidth=lw*.55; ctx.beginPath();
+    for(let i=-6;i<=6;i++){ let px=x+i*tw*.32; ctx.moveTo(px+i*tw*.25,y); for(let yy=y;yy>top;yy-=6){ ctx.lineTo(px+Math.sin(yy*.09+i)*1.6+(i*tw*.25)*(yy-top)/(y-top),yy); } }
+    ctx.stroke(); ctx.restore();
+    for(const s of [-1,1]){ st(lw*1.1); ctx.beginPath(); ctx.moveTo(x+s*tw*.4,top+h*.06); ctx.quadraticCurveTo(x+s*h*.12,top-h*.02,x+s*h*.2,top-h*.12); ctx.stroke(); }
+    const cx=x, cy=y-h*.7, rx=h*.36, ry=h*.28, cl=[];
+    const n=Math.round(16+h/22);
+    for(let i=0;i<n;i++){ const a=R()*TAU, d=Math.sqrt(R()); cl.push([cx+Math.cos(a)*rx*d*.85, cy+Math.sin(a)*ry*d*.85, rr(.2,.3)*h*.4]); }
+    cl.sort((a,b)=>a[1]-b[1]);
+    for(const c of cl) E.clump(c[0],c[1],c[2],lw);
+  };
+
+  E.ground=(x0,x1,y,amp,H,lw=1,o={})=>{
+    const pts=[]; const ph=R()*10;
+    for(let x=x0;x<=x1+8;x+=8) pts.push([x, y+Math.sin(x*.012+ph)*amp+Math.sin(x*.041+ph*2)*amp*.35]);
+    st(lw); ctx.beginPath(); ctx.moveTo(x0,H); pts.forEach(p=>ctx.lineTo(p[0],p[1])); ctx.lineTo(x1,H); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.stroke();
+    ctx.lineWidth=lw*.5; ctx.beginPath();
+    const rows=o.rows||9;
+    for(let j=1;j<=rows;j++){ for(let i=0;i<pts.length-1;i++){ if(R()< .25+j*.06) continue; const p=pts[i], n=pts[i+1]; const yy=j*3.4; ctx.moveTo(p[0],p[1]+yy); ctx.lineTo(n[0]-R()*4,n[1]+yy); } }
+    ctx.stroke();
+    ctx.lineWidth=lw*.7; ctx.beginPath();
+    for(let i=0;i<pts.length;i+=1){ if(R()<.55) continue; const p=pts[i], k=3+Math.floor(R()*3);
+      for(let j=0;j<k;j++){ const a=-Math.PI/2+(j-(k-1)/2)*.28+rr(-.1,.1), L=rr(5,11); ctx.moveTo(p[0],p[1]); ctx.quadraticCurveTo(p[0]+Math.cos(a)*L*.5,p[1]+Math.sin(a)*L*.6,p[0]+Math.cos(a)*L+rr(-2,2),p[1]+Math.sin(a)*L); } }
+    ctx.stroke();
+    for(let i=0;i<(o.pebbles||8);i++){ const p=pts[Math.floor(R()*pts.length)], px=p[0]+rr(-10,10), py=p[1]+rr(8,30), r=rr(2,4.5);
+      st(lw*.7); ctx.beginPath(); ctx.ellipse(px,py,r*1.4,r,0,0,TAU); ctx.fill(); ctx.stroke(); ctx.beginPath(); ctx.moveTo(px-r,py+r*.4); ctx.lineTo(px+r,py+r*.4); ctx.stroke(); }
+    return pts;
+  };
+
+  E.rock=(x,y,w,h,lw=1)=>{
+    const pts=[[x-w/2,y]], n=7; for(let i=1;i<n;i++){ const t=i/n; pts.push([x-w/2+w*t+rr(-6,6), y-h*(Math.sin(t*Math.PI)*.85+rr(0,.25))]); } pts.push([x+w/2,y]);
+    const path=()=>{ pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.closePath(); };
+    st(lw); ctx.beginPath(); path(); ctx.fill(); ctx.stroke();
+    hatch(()=>{ path(); }, -.9, 3, lw*.5, [x,y-h,x+w/2,y]);
+    ctx.lineWidth=lw*.8; ctx.beginPath(); for(let i=2;i<n-1;i+=2){ ctx.moveTo(pts[i][0],pts[i][1]); ctx.lineTo(pts[i][0]+rr(-10,10),y-rr(0,h*.3)); } ctx.stroke();
+  };
+
+  E.arch=(x,y,w,h,lw=1)=>{
+    const pw=w*.2, ph=h*.6, top=y-h, sp=y-ph;
+    const outer=()=>{ ctx.moveTo(x,y); ctx.lineTo(x,sp); ctx.bezierCurveTo(x,sp-(h-ph)*.62,x+w*.3,top+(h-ph)*.06,x+w/2,top); ctx.bezierCurveTo(x+w*.7,top+(h-ph)*.06,x+w,sp-(h-ph)*.62,x+w,sp); ctx.lineTo(x+w,y); ctx.closePath(); };
+    const ih=(h-ph)*.72, it=sp-ih;
+    const inner=()=>{ ctx.moveTo(x+pw,y); ctx.lineTo(x+pw,sp); ctx.bezierCurveTo(x+pw,sp-ih*.62,x+pw+(w-2*pw)*.3,it+ih*.06,x+w/2,it); ctx.bezierCurveTo(x+w-pw-(w-2*pw)*.3,it+ih*.06,x+w-pw,sp-ih*.62,x+w-pw,sp); ctx.lineTo(x+w-pw,y); ctx.closePath(); };
+    st(lw*1.1); ctx.beginPath(); outer(); ctx.fill(); ctx.stroke();
+    hatch(inner, .78, 2.6, lw*.5, [x,top,x+w,y]); hatch(inner, -.78, 3.4, lw*.45, [x,top,x+w,y]);
+    st(lw); ctx.beginPath(); inner(); ctx.stroke();
+    ctx.lineWidth=lw*.7; ctx.beginPath(); const bh=Math.max(10,h*.055);
+    for(const px of [x, x+w-pw]){ let row=0; for(let yy=y-bh; yy>sp; yy-=bh, row++){ ctx.moveTo(px,yy); ctx.lineTo(px+pw,yy); const jx=px+pw*(row%2?.35:.7); ctx.moveTo(jx,yy); ctx.lineTo(jx,yy+bh); } }
+    ctx.stroke();
+    hatch(()=>{ ctx.rect(x+w-pw*.55,sp,pw*.55,ph); }, Math.PI/2, 3, lw*.45, [x+w-pw,sp,x+w,y]);
+    hatch(()=>{ ctx.rect(x,sp,pw*.3,ph); }, Math.PI/2, 3.2, lw*.45, [x,sp,x+pw,y]);
+    st(lw); ctx.beginPath(); ctx.rect(x-4,sp-8,pw+8,8); ctx.rect(x+w-pw-4,sp-8,pw+8,8); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.rect(x-6,y-10,pw+12,10); ctx.rect(x+w-pw-6,y-10,pw+12,10); ctx.fill(); ctx.stroke();
+    ctx.lineWidth=lw*.7; ctx.beginPath();
+    for(let i=1;i<10;i++){ const t=i/10; const o1=bezPt(t,[x,sp],[x,sp-(h-ph)*.62],[x+w*.3,top+(h-ph)*.06],[x+w/2,top]); }
+    ctx.stroke();
+    const vous=11; ctx.beginPath();
+    for(let i=1;i<vous;i++){ const t=i/vous, side=t<.5, tt=side?t*2:(1-t)*2;
+      const o1= side? bezPt(tt,[x,sp],[x,sp-(h-ph)*.62],[x+w*.3,top+(h-ph)*.06],[x+w/2,top]) : bezPt(tt,[x+w,sp],[x+w,sp-(h-ph)*.62],[x+w*.7,top+(h-ph)*.06],[x+w/2,top]);
+      const i1= side? bezPt(tt,[x+pw,sp],[x+pw,sp-ih*.62],[x+pw+(w-2*pw)*.3,it+ih*.06],[x+w/2,it]) : bezPt(tt,[x+w-pw,sp],[x+w-pw,sp-ih*.62],[x+w-pw-(w-2*pw)*.3,it+ih*.06],[x+w/2,it]);
+      ctx.moveTo(o1[0],o1[1]); ctx.lineTo(i1[0],i1[1]); }
+    ctx.stroke();
+    st(lw); ctx.beginPath(); ctx.moveTo(x+w/2-7,top+2); ctx.lineTo(x+w/2+7,top+2); ctx.lineTo(x+w/2+5,it+4); ctx.lineTo(x+w/2-5,it+4); ctx.closePath(); ctx.fill(); ctx.stroke();
+    let vx=x+pw*.5, vy=y-6; for(let i=0;i<14;i++){ const nx=vx+Math.sin(i*1.3)*pw*.35, ny=vy-ph*.07; E.stem(vx,vy,nx,ny,6,lw*.8); E.leaf(nx,ny,rr(8,13),(i%2?-.3:Math.PI+.3)-Math.PI/2*.2,lw*.9); vx=nx; vy=ny; if(vy<sp-10) break; }
+  };
+  function bezPt(t,a,b,c,d){ const u=1-t; return [u*u*u*a[0]+3*u*u*t*b[0]+3*u*t*t*c[0]+t*t*t*d[0], u*u*u*a[1]+3*u*u*t*b[1]+3*u*t*t*c[1]+t*t*t*d[1]]; }
+
+  E.house=(x,y,w,h,lw=1,o={})=>{
+    const rh=h*.7, roof=()=>{ ctx.moveTo(x-4,y-h); ctx.lineTo(x+w/2,y-h-rh); ctx.lineTo(x+w+4,y-h); ctx.closePath(); };
+    st(lw); ctx.beginPath(); ctx.rect(x,y-h,w,h); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); roof(); ctx.fill(); ctx.stroke();
+    hatch(roof, -Math.atan2(rh,w/2), 2.6, lw*.5, [x-4,y-h-rh,x+w+4,y-h]);
+    hatch(()=>{ ctx.rect(x+w*.62,y-h,w*.38,h); }, Math.PI/2, 2.8, lw*.45, [x,y-h,x+w,y]);
+    st(lw*.8); ctx.beginPath(); ctx.rect(x+w*.4,y-h*.45,w*.2,h*.45); ctx.fill(); ctx.stroke();
+    for(const wx of [x+w*.12, x+w*.72]){ ctx.beginPath(); ctx.rect(wx,y-h*.78,w*.16,h*.22); ctx.fill(); ctx.stroke(); ctx.beginPath(); ctx.moveTo(wx+w*.08,y-h*.78); ctx.lineTo(wx+w*.08,y-h*.56); ctx.stroke(); }
+    if(o.chimney){ st(lw); ctx.beginPath(); ctx.rect(x+w*.7,y-h-rh*.75,w*.12,rh*.45); ctx.fill(); ctx.stroke(); }
+  };
+  E.church=(x,y,s,lw=1)=>{
+    E.house(x+s*.9,y,s*1.6,s*.9,lw);
+    const tw=s*.7, th=s*2.2;
+    st(lw); ctx.beginPath(); ctx.rect(x,y-th,tw,th); ctx.fill(); ctx.stroke();
+    hatch(()=>{ ctx.rect(x+tw*.6,y-th,tw*.4,th); }, Math.PI/2, 2.6, lw*.45, [x,y-th,x+tw,y]);
+    const sp=()=>{ ctx.moveTo(x-3,y-th); ctx.lineTo(x+tw/2,y-th-s*1.7); ctx.lineTo(x+tw+3,y-th); ctx.closePath(); };
+    st(lw); ctx.beginPath(); sp(); ctx.fill(); ctx.stroke(); hatch(sp, 1.25, 2.4, lw*.45, [x-3,y-th-s*1.7,x+tw+3,y-th]);
+    st(lw*.8); ctx.beginPath(); ctx.arc(x+tw/2,y-th*.72,tw*.22,0,TAU); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x+tw/2,y-th*.72); ctx.lineTo(x+tw/2,y-th*.72-tw*.15); ctx.moveTo(x+tw/2,y-th*.72); ctx.lineTo(x+tw/2+tw*.12,y-th*.72); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x+tw/2,y-th-s*1.7); ctx.lineTo(x+tw/2,y-th-s*2.1); ctx.moveTo(x+tw/2-4,y-th-s*1.95); ctx.lineTo(x+tw/2+4,y-th-s*1.95); ctx.stroke();
+    st(lw*.8); ctx.beginPath(); ctx.moveTo(x+tw*.3,y); ctx.lineTo(x+tw*.3,y-s*.5); ctx.arc(x+tw/2,y-s*.5,tw*.2,Math.PI,0); ctx.lineTo(x+tw*.7,y); ctx.fill(); ctx.stroke();
+  };
+  E.village=(x,y,s,lw=1)=>{
+    E.house(x-s*2.6,y,s*1.3,s*.8,lw,{chimney:true});
+    E.church(x-s*.9,y,s,lw);
+    E.house(x+s*2.7,y,s*1.1,s*.75,lw);
+    E.house(x+s*4,y+2,s*1.4,s*.85,lw,{chimney:true});
+  };
+
+  E.bird=(x,y,s,a=0,flip=false,lw=1)=>{
+    ctx.save(); ctx.translate(x,y); ctx.rotate(a); ctx.scale(flip?-s:s,s); const l=lw/s;
+    st(l);
+    ctx.beginPath(); ctx.moveTo(1,3); ctx.quadraticCurveTo(10,18,24,24); ctx.quadraticCurveTo(12,10,7,2); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(-9,0); ctx.lineTo(-28,-7); ctx.lineTo(-18,0); ctx.lineTo(-28,6); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(0,0,11,4.5,0,0,TAU); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.arc(10,-1.5,3.6,0,TAU); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(13.4,-1.5); ctx.lineTo(17,-.6); ctx.lineTo(13.4,0); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(-1,-3); ctx.quadraticCurveTo(-4,-22,-26,-36); ctx.quadraticCurveTo(-8,-17,6,-3); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.lineWidth=l*.55; ctx.beginPath(); for(let i=1;i<9;i++){ const t=i/9; ctx.moveTo(-1+7*t,-3); ctx.lineTo(-26+24*t*1.1,-36+28*t); } ctx.stroke();
+    ctx.beginPath(); for(let i=1;i<5;i++){ ctx.moveTo(-6+i*3,-1); ctx.lineTo(-6+i*3,2); } ctx.stroke();
+    ctx.restore();
+  };
+
+  E.butterfly=(x,y,s,a=0,lw=1)=>{
+    ctx.save(); ctx.translate(x,y); ctx.rotate(a); ctx.scale(s,s); const l=lw/s; st(l);
+    for(const sx of [-1,1]){
+      ctx.beginPath(); ctx.ellipse(sx*7,-5,7.5,5.5,sx*-.5,0,TAU); ctx.fill(); ctx.stroke();
+      ctx.beginPath(); ctx.ellipse(sx*5.5,4,5,4,sx*.5,0,TAU); ctx.fill(); ctx.stroke();
+      ctx.lineWidth=l*.5; ctx.beginPath(); for(let i=0;i<4;i++){ ctx.moveTo(0,0); ctx.lineTo(sx*(4+i*3),-9+i*3); } ctx.stroke(); ctx.lineWidth=l;
+      ctx.beginPath(); ctx.arc(sx*8,-6,1.6,0,TAU); ctx.stroke();
+    }
+    ctx.beginPath(); ctx.ellipse(0,0,1.6,7,0,0,TAU); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0,-6); ctx.quadraticCurveTo(-2,-11,-4,-13); ctx.moveTo(0,-6); ctx.quadraticCurveTo(2,-11,4,-13); ctx.stroke();
+    ctx.restore();
+  };
+
+  E.garland=(x0,y0,x1,y1,sag,lw=1,o={})=>{
+    const c=[(x0+x1)/2,(y0+y1)/2+sag];
+    st(lw); ctx.beginPath(); ctx.moveTo(x0,y0); ctx.quadraticCurveTo(c[0],c[1],x1,y1); ctx.stroke();
+    const n=o.n||16;
+    for(let i=0;i<=n;i++){ const t=i/n, p=q([x0,y0],c,[x1,y1],t), d=q([x0,y0],c,[x1,y1],Math.min(1,t+.01)); const ang=Math.atan2(d[1]-p[1],d[0]-p[0]);
+      E.leaf(p[0],p[1],rr(11,17)*(o.s||1),ang+(i%2?-1:1)*rr(.7,1.2),lw); }
+    const nf=o.flowers||3; for(let i=0;i<nf;i++){ const p=q([x0,y0],c,[x1,y1],(i+.5)/nf); E.rose(p[0],p[1],rr(9,13)*(o.s||1),lw); }
+  };
+
+  E.branch=(x0,y0,x1,y1,lw=1,o={})=>{
+    st(lw*1.6); ctx.beginPath(); ctx.moveTo(x0,y0); ctx.quadraticCurveTo((x0+x1)/2,(y0+y1)/2-20,x1,y1); ctx.stroke();
+    const c=[(x0+x1)/2,(y0+y1)/2-20];
+    for(let i=1;i<14;i++){ const t=i/14, p=q([x0,y0],c,[x1,y1],t), d=q([x0,y0],c,[x1,y1],t+.01), ang=Math.atan2(d[1]-p[1],d[0]-p[0]);
+      E.leaf(p[0],p[1],rr(14,22)*(o.s||1),ang+(i%2?-1:1)*rr(.5,1),lw); }
+    for(let i=0;i<(o.flowers||2);i++){ const p=q([x0,y0],c,[x1,y1],.35+i*.35); E.rose(p[0],p[1]-6,rr(12,16)*(o.s||1),lw); }
+  };
+  return E;
+}
+
+/* Fit a canvas to its CSS box and return a 2D context in CSS pixels. */
+function fit(cv){
+  const r=cv.getBoundingClientRect(), dpr=Math.min(2,window.devicePixelRatio||1);
+  cv.width=Math.max(1,Math.round(r.width*dpr)); cv.height=Math.max(1,Math.round(r.height*dpr));
+  const ctx=cv.getContext("2d"); ctx.setTransform(dpr,0,0,dpr,0,0); return {ctx,w:r.width,h:r.height};
+}
+window.Toile={engraver,fit};
+})();
+
+</script>
+<script>
+(() => {
+"use strict";
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+
+/* ---------------- i18n ---------------- */
+const T={
+nl:{navSearch:"Zoeken",navMembers:"Voor leden",navAbout:"Over",navPrivacy:"Privacy",
+ heroH:"Bouw mee aan je eigen stamboom",searchPh:"Zoek een naam, bijvoorbeeld Trampe",searchBtn:"Zoek",loading:"Archief wordt geladen…",loaded:"{n} namen doorzoekbaar",loadFail:"Het archief kon niet laden. Ververs de pagina.",
+ intro1:"Begonnen als het levenswerk van één familie: doopakten, huwelijken en begraafregisters uit Westfalen, Lippe, Amsterdam en ver daarbuiten, terug tot 1430.",
+ intro2:"Iedereen kan hier gratis nagaan of een voorouder in het archief staat. Leden zien de volledige gegevens en familieverbanden, en vullen zelf aan.",
+ intro3:"Elke aanvulling wordt eerst nagekeken, voordat iemand anders haar ziet.",
+ stmt:"Bijna zes eeuwen aan namen, verbonden over grenzen heen. Misschien staat jouw overgrootmoeder er al tussen, of wacht er een tak op jou om aangevuld te worden.",
+ stmtCap:"Stand van het archief: november 2025",
+ regTitle:"Staat jouw familie erin?",regIdle:"Typ een voornaam of achternaam. Hieronder de grootste families in het archief.",
+ regFound:"{n} vermeldingen gevonden voor “{q}”.",regOne:"1 vermelding gevonden voor “{q}”.",regNone:"Geen vermelding gevonden voor “{q}”. Probeer een andere schrijfwijze, zoals Meier, Meyer of Maier.",regWait:"Het archief laadt nog. Een ogenblik.",
+ kvIn:"In archief",kvYes:"ja",kvPeriod:"Periode",kvDetails:"Gegevens",kvMembers:"voor leden",kvPersons:"Personen",
+ rowSub:"Vermeld in het archief",rowNoDate:"periode onbekend",famSub:"{n} personen met deze familienaam",more:"Toon meer vermeldingen ↗",
+ cobaltH:"Achter elke naam schuilt een familie",
+ memEyebrow:"Voor leden",memLead:"Gevonden wie je zocht? Met toegang zie je het hele verhaal.",
+ memNote:"Leden zien alle gegevens van overleden voorouders, met bron, en kunnen zelf aanvullen. Toegang kost een kleine vergoeding.",
+ memCta:"Toegang aanvragen",memContact:"Vraag toegang aan bij de beheerder van de stamboom. Je hoort persoonlijk wanneer je account klaarstaat.",
+ feats:[["Kwartierstaat","Vijf generaties voorouders in één overzicht."],["Nakomelingen","Kinderen, kleinkinderen en verder, met hun partners."],["Verwantschap","Hoe twee mensen familie zijn: oom, achterneef of aangetrouwd."],["Levensloop","Een tijdlijn per persoon, met wat er toen in het land en de wereld gebeurde."],["Foto’s","Portretten en documenten bij de juiste persoon en het juiste gezin."],["Aanvullen","Zelf gegevens toevoegen en fouten melden, met bron erbij."]],
+ privTitle:"Zorgvuldig met wat we tonen",privSub:"Een stamboom gaat over echte mensen. Daarom laat de openbare zoekfunctie bewust weinig zien.",
+ three:[["Levende personen","Volledig afgeschermd","Wie mogelijk nog leeft, staat niet in de openbare zoekfunctie. Ook wie na 2000 is overleden, blijft afgeschermd."],["Alleen namen","Openbare zoekfunctie","Bezoekers zien alleen of een naam voorkomt, en in welke eeuw. Datums, plaatsen en familieverbanden zijn er alleen voor leden."],["Fouten melden","Samen beter","Sta je er onterecht in, of klopt er iets niet? Laat het de beheerder weten. Het wordt nagekeken en aangepast."]],
+ archTitle:"Uit het archief",
+ notes:[["De oudste vermelding dateert uit 1430","Archief","15e eeuw"],["{n} voorouders in {f} gezinnen","Omvang","november 2025"],["Meest voorkomende familienaam: {s}","Familienamen","{c} personen"],["{k} verschillende familienamen","Register","Nederland · Duitsland · Frankrijk"]],
+ footSmall:"Een familiearchief · 1430 – heden"},
+de:{navSearch:"Suchen",navMembers:"Für Mitglieder",navAbout:"Über uns",navPrivacy:"Datenschutz",
+ heroH:"Bau mit an deinem eigenen Stammbaum",searchPh:"Namen suchen, zum Beispiel Trampe",searchBtn:"Suchen",loading:"Archiv wird geladen…",loaded:"{n} Namen durchsuchbar",loadFail:"Das Archiv konnte nicht geladen werden. Lade die Seite neu.",
+ intro1:"Entstanden als Lebenswerk einer Familie: Tauf-, Heirats- und Sterberegister aus Westfalen, Lippe, Amsterdam und weit darüber hinaus, zurück bis 1430.",
+ intro2:"Hier kann jeder kostenlos prüfen, ob ein Vorfahre im Archiv steht. Mitglieder sehen alle Angaben und Familienverbindungen und ergänzen selbst.",
+ intro3:"Jede Ergänzung wird geprüft, bevor andere sie sehen.",
+ stmt:"Fast sechs Jahrhunderte voller Namen, verbunden über Grenzen hinweg. Vielleicht steht deine Urgroßmutter schon darin, oder ein Zweig wartet darauf, von dir ergänzt zu werden.",
+ stmtCap:"Stand des Archivs: November 2025",
+ regTitle:"Ist deine Familie dabei?",regIdle:"Gib einen Vor- oder Nachnamen ein. Unten die größten Familien im Archiv.",
+ regFound:"{n} Einträge für „{q}“ gefunden.",regOne:"1 Eintrag für „{q}“ gefunden.",regNone:"Kein Eintrag für „{q}“ gefunden. Versuche eine andere Schreibweise, etwa Meier, Meyer oder Maier.",regWait:"Das Archiv lädt noch. Einen Moment.",
+ kvIn:"Im Archiv",kvYes:"ja",kvPeriod:"Zeitraum",kvDetails:"Angaben",kvMembers:"für Mitglieder",kvPersons:"Personen",
+ rowSub:"Im Archiv verzeichnet",rowNoDate:"Zeitraum unbekannt",famSub:"{n} Personen mit diesem Familiennamen",more:"Mehr Einträge zeigen ↗",
+ cobaltH:"Hinter jedem Namen steht eine Familie",
+ memEyebrow:"Für Mitglieder",memLead:"Gefunden, wen du gesucht hast? Mit Zugang siehst du die ganze Geschichte.",
+ memNote:"Mitglieder sehen alle Angaben verstorbener Vorfahren mit Quelle und können selbst ergänzen. Der Zugang kostet eine kleine Gebühr.",
+ memCta:"Zugang anfragen",memContact:"Frage den Zugang beim Verwalter des Stammbaums an. Du erfährst persönlich, wann dein Konto bereitsteht.",
+ feats:[["Ahnentafel","Fünf Generationen Vorfahren auf einen Blick."],["Nachkommen","Kinder, Enkel und weiter, mit ihren Partnern."],["Verwandtschaft","Wie zwei Menschen verwandt sind: Onkel, Cousin zweiten Grades oder verschwägert."],["Lebenslauf","Eine Zeitleiste pro Person, mit dem, was damals im Land und in der Welt geschah."],["Fotos","Porträts und Dokumente bei der richtigen Person und Familie."],["Ergänzen","Selbst Angaben hinzufügen und Fehler melden, mit Quelle."]],
+ privTitle:"Sorgfältig mit dem, was wir zeigen",privSub:"Ein Stammbaum handelt von echten Menschen. Deshalb zeigt die öffentliche Suche bewusst wenig.",
+ three:[["Lebende Personen","Vollständig geschützt","Wer möglicherweise noch lebt, erscheint nicht in der öffentlichen Suche. Auch wer nach 2000 verstorben ist, bleibt geschützt."],["Nur Namen","Öffentliche Suche","Besucher sehen nur, ob ein Name vorkommt und in welchem Jahrhundert. Daten, Orte und Familienverbindungen gibt es nur für Mitglieder."],["Fehler melden","Gemeinsam besser","Stehst du zu Unrecht darin, oder stimmt etwas nicht? Gib dem Verwalter Bescheid. Es wird geprüft und korrigiert."]],
+ archTitle:"Aus dem Archiv",
+ notes:[["Der älteste Eintrag stammt aus dem Jahr 1430","Archiv","15. Jahrhundert"],["{n} Vorfahren in {f} Familien","Umfang","November 2025"],["Häufigster Familienname: {s}","Familiennamen","{c} Personen"],["{k} verschiedene Familiennamen","Register","Niederlande · Deutschland · Frankreich"]],
+ footSmall:"Ein Familienarchiv · 1430 bis heute"},
+fr:{navSearch:"Rechercher",navMembers:"Pour les membres",navAbout:"À propos",navPrivacy:"Confidentialité",
+ heroH:"Participez à votre propre arbre généalogique",searchPh:"Rechercher un nom, par exemple Trampe",searchBtn:"Chercher",loading:"Chargement des archives…",loaded:"{n} noms consultables",loadFail:"Les archives n’ont pas pu être chargées. Actualisez la page.",
+ intro1:"Né du travail de toute une vie d’une famille : actes de baptême, de mariage et de sépulture de Westphalie, de Lippe, d’Amsterdam et bien au-delà, jusqu’en 1430.",
+ intro2:"Chacun peut vérifier gratuitement si un ancêtre figure dans les archives. Les membres voient toutes les données et les liens familiaux, et peuvent compléter eux-mêmes.",
+ intro3:"Chaque ajout est vérifié avant que d’autres ne le voient.",
+ stmt:"Près de six siècles de noms, reliés par-delà les frontières. Votre arrière-grand-mère y figure peut-être déjà, ou une branche attend que vous la complétiez.",
+ stmtCap:"État des archives : novembre 2025",
+ regTitle:"Votre famille y figure-t-elle ?",regIdle:"Saisissez un prénom ou un nom. Ci-dessous, les plus grandes familles des archives.",
+ regFound:"{n} mentions trouvées pour « {q} ».",regOne:"1 mention trouvée pour « {q} ».",regNone:"Aucune mention trouvée pour « {q} ». Essayez une autre orthographe, comme Meier, Meyer ou Maier.",regWait:"Les archives sont en cours de chargement. Un instant.",
+ kvIn:"Aux archives",kvYes:"oui",kvPeriod:"Période",kvDetails:"Données",kvMembers:"pour les membres",kvPersons:"Personnes",
+ rowSub:"Mentionné dans les archives",rowNoDate:"période inconnue",famSub:"{n} personnes portant ce nom",more:"Afficher plus de mentions ↗",
+ cobaltH:"Derrière chaque nom se cache une famille",
+ memEyebrow:"Pour les membres",memLead:"Vous avez trouvé la personne recherchée ? Avec un accès, vous voyez toute son histoire.",
+ memNote:"Les membres voient toutes les données des ancêtres décédés, avec leurs sources, et peuvent compléter eux-mêmes. L’accès coûte une petite participation.",
+ memCta:"Demander un accès",memContact:"Demandez un accès à l’administrateur de l’arbre. Vous serez prévenu personnellement dès que votre compte sera prêt.",
+ feats:[["Ascendance","Cinq générations d’ancêtres en un seul aperçu."],["Descendance","Enfants, petits-enfants et au-delà, avec leurs conjoints."],["Parenté","Le lien entre deux personnes : oncle, cousin issu de germain ou par alliance."],["Parcours de vie","Une frise par personne, avec ce qui se passait alors dans le pays et le monde."],["Photos","Portraits et documents rattachés à la bonne personne et à la bonne famille."],["Compléter","Ajouter des données et signaler des erreurs, avec la source."]],
+ privTitle:"Prudents dans ce que nous montrons",privSub:"Un arbre généalogique parle de personnes réelles. La recherche publique montre donc volontairement peu de choses.",
+ three:[["Personnes vivantes","Entièrement protégées","Les personnes peut-être encore en vie n’apparaissent pas dans la recherche publique. Les personnes décédées après 2000 restent également protégées."],["Uniquement des noms","Recherche publique","Les visiteurs voient seulement si un nom apparaît, et à quel siècle. Dates, lieux et liens familiaux sont réservés aux membres."],["Signaler une erreur","Mieux ensemble","Vous y figurez à tort, ou quelque chose est inexact ? Prévenez l’administrateur. Ce sera vérifié et corrigé."]],
+ archTitle:"Extraits des archives",
+ notes:[["La plus ancienne mention date de 1430","Archives","XVe siècle"],["{n} ancêtres dans {f} familles","Étendue","novembre 2025"],["Nom le plus fréquent : {s}","Noms de famille","{c} personnes"],["{k} noms de famille différents","Registre","Pays-Bas · Allemagne · France"]],
+ footSmall:"Des archives familiales · de 1430 à nos jours"},
+en:{navSearch:"Search",navMembers:"For members",navAbout:"About",navPrivacy:"Privacy",
+ heroH:"Help build your own family tree",searchPh:"Search a name, for example Trampe",searchBtn:"Search",loading:"Loading the archive…",loaded:"{n} names searchable",loadFail:"The archive could not load. Refresh the page.",
+ intro1:"Started as one family’s life’s work: baptism, marriage and burial records from Westphalia, Lippe, Amsterdam and far beyond, reaching back to 1430.",
+ intro2:"Anyone can check here for free whether an ancestor is in the archive. Members see the full records and family links, and add what they know.",
+ intro3:"Every addition is reviewed before anyone else sees it.",
+ stmt:"Almost six centuries of names, connected across borders. Your great-grandmother may already be here, or a branch is waiting for you to fill it in.",
+ stmtCap:"Archive as of November 2025",
+ regTitle:"Is your family in it?",regIdle:"Type a first name or surname. Below are the largest families in the archive.",
+ regFound:"{n} entries found for “{q}”.",regOne:"1 entry found for “{q}”.",regNone:"No entry found for “{q}”. Try another spelling, such as Meier, Meyer or Maier.",regWait:"The archive is still loading. One moment.",
+ kvIn:"In archive",kvYes:"yes",kvPeriod:"Period",kvDetails:"Records",kvMembers:"members only",kvPersons:"People",
+ rowSub:"Recorded in the archive",rowNoDate:"period unknown",famSub:"{n} people with this surname",more:"Show more entries ↗",
+ cobaltH:"Behind every name there is a family",
+ memEyebrow:"For members",memLead:"Found who you were looking for? With access you see the whole story.",
+ memNote:"Members see every record of deceased ancestors, with sources, and can add to the tree. Access costs a small fee.",
+ memCta:"Request access",memContact:"Ask the keeper of the family tree for access. You will hear personally when your account is ready.",
+ feats:[["Pedigree","Five generations of ancestors in one view."],["Descendants","Children, grandchildren and beyond, with their partners."],["Relationship","How two people are related: uncle, second cousin or by marriage."],["Life story","A timeline per person, with what happened in their country and the world at the time."],["Photos","Portraits and documents attached to the right person and family."],["Contribute","Add records and report mistakes yourself, with a source."]],
+ privTitle:"Careful with what we show",privSub:"A family tree is about real people. That is why the public search shows very little on purpose.",
+ three:[["Living people","Fully protected","Anyone who may still be alive is left out of the public search. People who died after 2000 stay protected too."],["Names only","Public search","Visitors only see whether a name appears, and in which century. Dates, places and family links are for members."],["Report a mistake","Better together","Listed by mistake, or is something wrong? Tell the keeper of the tree. It will be checked and corrected."]],
+ archTitle:"From the archive",
+ notes:[["The oldest record dates from 1430","Archive","15th century"],["{n} ancestors in {f} families","Scope","November 2025"],["Most common surname: {s}","Surnames","{c} people"],["{k} different surnames","Register","Netherlands · Germany · France"]],
+ footSmall:"A family archive · 1430 to today"}
+};
+const LOC={nl:"nl-NL",de:"de-DE",fr:"fr-FR",en:"en-GB"};
+let lang="nl";
+try{ const s=localStorage.getItem("herkomst-lang"); if(T[s]) lang=s; else { const b=(navigator.language||"nl").slice(0,2); if(T[b]) lang=b; } }catch(e){ const b=(navigator.language||"nl").slice(0,2); if(T[b]) lang=b; }
+const t=(k,v={})=>String(T[lang][k]??T.nl[k]).replace(/\{(\w+)\}/g,(m,x)=>v[x]??m);
+const fmt=n=>new Intl.NumberFormat(LOC[lang]).format(n);
+function roman(n){ const m=[[1000,"M"],[900,"CM"],[500,"D"],[400,"CD"],[100,"C"],[90,"XC"],[50,"L"],[40,"XL"],[10,"X"],[9,"IX"],[5,"V"],[4,"IV"],[1,"I"]]; let s=""; for(const [v,r] of m) while(n>=v){s+=r;n-=v;} return s; }
+function century(c){ if(!c) return t("rowNoDate");
+  return lang==="nl"?`${c}e eeuw`:lang==="de"?`${c}. Jahrhundert`:lang==="fr"?`${roman(c)}e siècle`:`${c}${c%100>10&&c%100<14?"th":({1:"st",2:"nd",3:"rd"}[c%10]||"th")} century`; }
+function centRange(a,b){ if(!a) return t("rowNoDate"); if(a===b) return century(a);
+  return lang==="fr"?`${roman(a)}e – ${roman(b)}e s.`:lang==="de"?`${a}. – ${b}. Jh.`:lang==="nl"?`${a}e – ${b}e eeuw`:`${century(a).split(" ")[0]} – ${century(b)}`; }
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------------- data ---------------- */
+let D=null, IDX=[], SUR=[], hits=[], shown=0, query="";
+const norm=s=>(s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
+
+function personRow(i){
+  const p=D.p[i]; const nm=[p[0]?esc(p[0]):"",p[1]?`<em>${esc(p[1])}</em>`:"",esc(p[2]||"")].filter(Boolean).join(" ")||"—";
+  return `<a class="row" href="#leden"><span class="nm">${nm}</span><span class="sub">${t("rowSub")} · ${esc(century(p[3]))}</span>
+   <span class="side"><span class="kv"><b>${t("kvIn")}</b><i>${t("kvYes")}</i></span><span class="kv"><b>${t("kvPeriod")}</b><i>${esc(century(p[3]))}</i></span><span class="kv"><b>${t("kvDetails")}</b><i>${t("kvMembers")}</i></span><span class="arrow">↗</span></span></a>`;
+}
+function surnameRow(s){
+  return `<button class="row" data-s="${esc(s.name)}"><span class="nm">${esc(s.name)}</span><span class="sub">${t("famSub",{n:fmt(s.n)})}</span>
+   <span class="side"><span class="kv"><b>${t("kvPersons")}</b><i>${fmt(s.n)}</i></span><span class="kv"><b>${t("kvPeriod")}</b><i>${esc(centRange(s.a,s.b))}</i></span><span class="arrow">↗</span></span></button>`;
+}
+function search(q){
+  const words=norm(q).split(/\s+/).filter(Boolean); if(!words.length) return [];
+  const out=[]; for(let i=0;i<IDX.length;i++){ const s=IDX[i]; if(words.every(w=>s.includes(w))) out.push(i); }
+  out.sort((a,b)=>{ const ea=words.some(w=>norm(D.p[a][2])===w)?0:1, eb=words.some(w=>norm(D.p[b][2])===w)?0:1; return ea-eb || (D.p[a][3]||99)-(D.p[b][3]||99) || D.p[a][0].localeCompare(D.p[b][0]); });
+  return out;
+}
+function renderRegister(reset=true){
+  const box=$("#results"), st=$("#status");
+  if(!D){ st.textContent=query?t("regWait"):t("regIdle"); return; }
+  if(!query.trim()){ st.textContent=t("regIdle"); box.innerHTML=SUR.slice(0,8).map(surnameRow).join(""); $("#moreBtn").hidden=true; return; }
+  if(reset){ hits=search(query); shown=0; box.innerHTML=""; }
+  st.textContent = hits.length===0?t("regNone",{q:query.trim()}):hits.length===1?t("regOne",{q:query.trim()}):t("regFound",{n:fmt(hits.length),q:query.trim()});
+  const next=hits.slice(shown,shown+30); box.insertAdjacentHTML("beforeend",next.map(personRow).join("")); shown+=next.length;
+  $("#moreBtn").hidden = shown>=hits.length;
+}
+let deb=null;
+$("#q").addEventListener("input",e=>{ clearTimeout(deb); deb=setTimeout(()=>{ query=e.target.value; renderRegister(); },180); });
+$("#heroForm").addEventListener("submit",e=>{ e.preventDefault(); query=$("#q").value; renderRegister(); $("#zoeken").scrollIntoView(); });
+$("#moreBtn").addEventListener("click",()=>renderRegister(false));
+document.addEventListener("click",e=>{ const r=e.target.closest(".row[data-s]"); if(r){ $("#q").value=r.dataset.s; query=r.dataset.s; renderRegister(); $("#zoeken").scrollIntoView(); } });
+
+/* ---------------- static copy ---------------- */
+function splitWords(el,txt){ el.innerHTML=txt.split(/\s+/).map(w=>`<span class="w">${esc(w)}</span>`).join(" "); }
+function splitLetters(el,txt){ let i=0; el.innerHTML=txt.split(/(\s+)/).map(part=>/^\s+$/.test(part)?" ":`<span style="white-space:nowrap">${[...part].map(ch=>`<span class="l" style="transition-delay:${(i++)*28}ms">${esc(ch)}</span>`).join("")}</span>`).join(""); }
+function notesHTML(){
+  if(!D) return "";
+  const top=SUR[0]||{name:"",n:0};
+  return T[lang].notes.map((n,ix)=>{ const v={n:fmt(D.n),f:fmt(D.fam),s:top.name,c:fmt(top.n),k:fmt(SUR.length)};
+    const k=[ "1430", fmt(D.n), fmt(top.n), fmt(SUR.length) ][ix];
+    return `<div class="note"><div class="k">${k}</div><div><h3>${esc(n[0].replace(/\{(\w+)\}/g,(m,x)=>v[x]??m))}</h3><div class="m"><span>${esc(n[1])}</span><span>${esc(n[2].replace(/\{(\w+)\}/g,(m,x)=>v[x]??m))}</span></div></div><a class="arrow" href="#zoeken" aria-label="${esc(t("navSearch"))}">↗</a></div>`; }).join("");
+}
+function applyLang(){
+  document.documentElement.lang=lang;
+  $$("[data-t]").forEach(el=>{ el.textContent=t(el.dataset.t, D?{n:fmt(D.n)}:{}); });
+  $("#q").placeholder=t("searchPh"); $("#q").setAttribute("aria-label",t("searchPh"));
+  if(D) $("#loadHint").textContent=t("loaded",{n:fmt(D.n)});
+  $$(".lang button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.l===lang)));
+  splitWords($("#stmt"),t("stmt")); reveal();
+  const ch=$("#cobaltH"); const went=ch.classList.contains("go"); splitLetters(ch,t("cobaltH")); if(went) ch.classList.add("go");
+  $("#flist").innerHTML=T[lang].feats.map(f=>`<div class="frow"><b>${esc(f[0])}</b><span>${esc(f[1])}</span></div>`).join("");
+  $("#three").innerHTML=T[lang].three.map(c=>`<article><h3>${esc(c[0])}</h3><div class="s">${esc(c[1])}</div><p>${esc(c[2])}</p></article>`).join("");
+  $("#notes").innerHTML=notesHTML();
+  renderRegister();
+}
+$$(".lang button").forEach(b=>b.addEventListener("click",()=>{ lang=b.dataset.l; try{localStorage.setItem("herkomst-lang",lang);}catch(e){} applyLang(); }));
+
+/* ---------------- scroll effects ---------------- */
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function reveal(){
+  const p=$("#stmt"), ws=p.querySelectorAll(".w"); if(!ws.length) return;
+  if(reduce){ ws.forEach(w=>w.classList.add("on")); return; }
+  const r=p.getBoundingClientRect(), vh=innerHeight;
+  const prog=Math.max(0,Math.min(1,(vh*.85-r.top)/(r.height+vh*.35)));
+  const k=Math.round(prog*ws.length); ws.forEach((w,i)=>w.classList.toggle("on",i<k));
+}
+addEventListener("scroll",reveal,{passive:true});
+const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("go"); io.unobserve(e.target); } }),{threshold:.4});
+if(reduce) $("#cobaltH").classList.add("go"); else io.observe($("#cobaltH"));
+
+/* ---------------- engravings ---------------- */
+const BLUE="#2A2BCF", PAPER="#FCFCFD", WHITE="#FFFFFF";
+function drawHero(){
+  const cv=$("#cvHero"); const {ctx,w,h}=Toile.fit(cv); ctx.clearRect(0,0,w,h);
+  const E=Toile.engraver(ctx,BLUE,PAPER,1430), s=Math.max(.55,Math.min(1.2,w/1250)), lw=Math.max(.75,s*.95), gy=h*.9;
+  if(w>560){ E.ground(w*.56,w*.80,h*.80,4,h*.84,lw,{rows:3,pebbles:0}); E.village(w*.66,h*.80,20*s,lw); }
+  E.ground(-10,w+10,gy,7*s,h+20,lw,{rows:7,pebbles:12});
+  E.rock(w*.9,gy+6,220*s,64*s,lw);
+  E.tree(w*.9,gy-46*s,Math.min(h*.66,560*s),lw);
+  E.arch(w*.015,gy+4,Math.max(110,175*s),Math.min(h*.66,500*s),lw);
+  E.bush(w*.03,gy+10,150*s,100*s,{lw,leaf:s});
+  E.bush(w*.23,gy+10,190*s,130*s,{lw,leaf:s});
+  E.bush(w*.41,gy+12,150*s,64*s,{lw,leaf:s,flowers:2,daisy:true});
+  E.bush(w*.59,gy+12,170*s,78*s,{lw,leaf:s,flowers:2});
+  E.bush(w*.76,gy+12,150*s,96*s,{lw,leaf:s,daisy:true});
+  const mx=w/2, gw=Math.min(300*s,w*.3);
+  E.garland(mx-34-gw,22*s,mx-38,58,46*s,lw,{n:14,flowers:2,s});
+  E.garland(mx+38,58,mx+34+gw,22*s,46*s,lw,{n:14,flowers:2,s});
+  E.bird(w*.13,h*.19,1.7*s,-.18,false,lw);
+  E.bird(w*.80,h*.13,1.05*s,.12,true,lw);
+  E.bird(w*.74,h*.20,.8*s,.05,true,lw);
+  E.butterfly(w*.30,h*.40,1.3*s,.35,lw);
+  E.butterfly(w*.68,h*.50,1.1*s,-.4,lw);
+}
+function drawBird(){
+  const {ctx,w,h}=Toile.fit($("#cvBird")); ctx.clearRect(0,0,w,h);
+  const E=Toile.engraver(ctx,BLUE,PAPER,1648), s=Math.min(1,w/440);
+  E.branch(10,h*.82,w*.95,h*.42,1,{s,flowers:2});
+  E.bird(w*.55,h*.36,1.5*s,-.08,false,1);
+  E.butterfly(w*.2,h*.2,1.2*s,.4,1);
+}
+function drawStrip(){
+  const {ctx,w,h}=Toile.fit($("#cvStrip")); ctx.clearRect(0,0,w,h);
+  const E=Toile.engraver(ctx,BLUE,PAPER,1720), s=Math.max(.6,Math.min(1,w/1250));
+  E.ground(-10,w+10,h*.86,3,h+10,.9,{rows:3,pebbles:6});
+  const n=Math.max(3,Math.round(w/260));
+  for(let i=0;i<n;i++){ const x=(i+.5)*w/n+E.rr(-30,30); E.bush(x,h*.9,E.rr(90,150)*s,E.rr(50,90)*s,{lw:.9,leaf:s,flowers:1,daisy:i%2===0}); }
+}
+function drawCorner(id,seed,flip){
+  const cv=$(id); const {ctx,w,h}=Toile.fit(cv); ctx.clearRect(0,0,w,h);
+  const E=Toile.engraver(ctx,WHITE,BLUE,seed), s=w/300;
+  ctx.save(); if(flip){ ctx.translate(w,h); ctx.rotate(Math.PI); }
+  E.bush(w*.35,h*.82,w*.6,h*.62,{lw:.9,leaf:s*.9,flowers:3});
+  E.bud(w*.75,h*.3,6*s,-.5,.9); E.butterfly(w*.72,h*.18,1*s,.3,.9);
+  ctx.restore();
+}
+function drawFoot(){
+  const {ctx,w,h}=Toile.fit($("#cvFoot")); ctx.clearRect(0,0,w,h);
+  const E=Toile.engraver(ctx,WHITE,BLUE,2025), s=Math.max(.55,Math.min(1.1,w/1250)), gy=h*.9;
+  E.ground(w*.25,w*.75,h*.66,4,h*.7,.9,{rows:3,pebbles:0});
+  E.village(w*.45,h*.66,24*s,.9);
+  E.ground(-10,w+10,gy,6*s,h+10,.9,{rows:5,pebbles:10});
+  E.tree(w*.14,gy-10,h*.86,.9);
+  E.tree(w*.84,gy-14,h*.74,.9);
+  E.arch(w*.62,gy+4,90*s,h*.5,.9);
+  E.bush(w*.30,gy+8,170*s,80*s,{lw:.9,leaf:s});
+  E.bush(w*.52,gy+8,140*s,60*s,{lw:.9,leaf:s,daisy:true});
+  E.bush(w*.96,gy+8,150*s,90*s,{lw:.9,leaf:s});
+  E.bird(w*.35,h*.22,1.1*s,-.1,false,.9); E.bird(w*.72,h*.18,.8*s,.1,true,.9);
+}
+function drawAll(){ drawHero(); drawBird(); drawStrip(); drawCorner("#cvC1",11,false); drawCorner("#cvC2",29,true); drawFoot(); }
+let rz=null, lastW=innerWidth;
+addEventListener("resize",()=>{ if(Math.abs(innerWidth-lastW)<2) return; lastW=innerWidth; clearTimeout(rz); rz=setTimeout(drawAll,200); });
+drawAll();
+
+/* ---------------- load ---------------- */
+applyLang();
+fetch("data.json").then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); }).then(d=>{
+  D=d; IDX=d.p.map(p=>norm(p[0]+" "+p[1]+" "+p[2]));
+  const m=new Map(); for(const p of d.p){ const s=(p[2]||"").trim(); if(!s) continue; const k=s.toLowerCase(); let e=m.get(k); if(!e){e={name:s,n:0,a:0,b:0};m.set(k,e);} e.n++; if(p[3]){ e.a=e.a?Math.min(e.a,p[3]):p[3]; e.b=Math.max(e.b,p[3]); } }
+  SUR=[...m.values()].sort((a,b)=>b.n-a.n);
+  if($("#q").value.trim()) query=$("#q").value;
+  applyLang();
+}).catch(()=>{ $("#loadHint").textContent=t("loadFail"); });
+})();
+</script>
+
+</body>
+</html>
